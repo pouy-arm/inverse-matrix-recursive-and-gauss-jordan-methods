@@ -123,18 +123,20 @@ vector<vector<float> > multi(vector<vector<float> > A, vector<vector<float> > B,
 
 int main() {
     vector<vector<float>> A = {{3, 1, 4, 1, 5, 9, 2, 6, 5, 3},
-        {5, 8, 9, 7, 9, 3, 2, 3, 8, 4},
-        {6, 2, 6, 4, 3, 3, 8, 3, 2, 7},
-        {9, 5, 0, 2, 8, 8, 4, 1, 9, 7},
-        {1, 6, 9, 3, 9, 7, 5, 1, 0, 5},
-        {8, 2, 6, 5, 3, 5, 8, 9, 7, 9},
-        {3, 2, 3, 8, 4, 6, 2, 6, 4, 3},
-        {3, 8, 3, 2, 7, 9, 5, 0, 2, 8},
-        {8, 4, 1, 9, 7, 1, 6, 9, 3, 9},
-        {7, 5, 1, 0, 5, 8, 2, 6, 5, 3}};
-    vector<vector<float>> RB = recursive_inverse(A);
+                               {5, 8, 9, 7, 9, 3, 2, 3, 8, 4},
+                               {6, 2, 6, 4, 3, 3, 8, 3, 2, 7},
+                               {9, 5, 0, 2, 8, 8, 4, 1, 9, 7},
+                               {1, 6, 9, 3, 9, 7, 5, 1, 0, 5},
+                               {8, 2, 6, 5, 3, 5, 8, 9, 7, 9},
+                               {3, 2, 3, 8, 4, 6, 2, 6, 4, 3},
+                               {3, 8, 3, 2, 7, 9, 5, 0, 2, 8},
+                               {8, 4, 1, 9, 7, 1, 6, 9, 3, 9},
+                               {7, 5, 1, 0, 5, 8, 2, 6, 5, 3}};
 
     auto recursive_start = chrono::high_resolution_clock::now();
+    vector<vector<float>> RB = recursive_inverse(A);
+    vector<vector<float>> RC = multi(A,RB);
+
     cout << "Recursive Inverse:" << endl;
     for (int i = 0 ; i < A.size() ; i++) {
         for (int j = 0 ; j < A.size() ; j++) {
@@ -143,29 +145,22 @@ int main() {
         cout << endl;
     }
 
-    cout << "*************************************************************************" << endl;
 
-    vector<vector<float>> RC = multi(A,RB);
-    for (int i = 0 ; i < A.size() ; i++) {
-        for (int j = 0 ; j < A.size() ; j++) {
-            cout << RC[i][j] << " ";
-        }
-        cout << endl;
-    }
 
     cout << "*************************************************************************" << endl;
 
     auto  recursive_end = chrono::high_resolution_clock::now();
-    auto diff = (recursive_end) - (recursive_start);
-    cout << " Recursive inverse runtime: " << diff.count() << endl;
+    auto diff = chrono::duration_cast<chrono::microseconds>(recursive_end - recursive_start);
+    cout << " Recursive inverse runtime: " << diff.count() << "microseconds" << endl;
 
     cout << "*************************************************************************************" << endl;
 
+    auto gauss_start = chrono::high_resolution_clock::now();
     vector<vector<float> > GB = gauss_inv(A);
     vector<vector<float> > GC = multi(A, GB);
 
 
-    auto gauss_start = chrono::high_resolution_clock::now();
+
     cout << "gauss jordan:" << endl;
     for (int i = 0; i < A.size(); i++) {
         for (int j = 0; j < A.size(); j++) {
@@ -176,20 +171,10 @@ int main() {
 
     cout << "*************************************************************************" << endl;
 
-
-    for (int i = 0; i < A.size(); i++) {
-        for (int j = 0; j < A.size(); j++) {
-            cout << GC[i][j] << " ";
-        }
-        cout << endl;
-    }
-
-    cout << "*************************************************************************" << endl;
-
     auto gauss_end = chrono::high_resolution_clock::now();
-    auto result = (gauss_end)-(gauss_start);
+    auto result = chrono::duration_cast<chrono::microseconds>(gauss_end-gauss_start);
 
-    cout << "Gauss jordan runtime: " << result.count() << endl;
+    cout << "Gauss jordan runtime: " << result.count() << "microseconds" << endl;
 
     return 0;
 }
