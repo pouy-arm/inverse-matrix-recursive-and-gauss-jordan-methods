@@ -122,6 +122,8 @@ vector<vector<float> > multi(vector<vector<float> > A, vector<vector<float> > B,
 }
 
 int main() {
+  std::cout.precision(2);
+  std::cout << std::fixed;
     vector<vector<float>> A = {{3, 1, 4, 1, 5, 9, 2, 6, 5, 3},
                                {5, 8, 9, 7, 9, 3, 2, 3, 8, 4},
                                {6, 2, 6, 4, 3, 3, 8, 3, 2, 7},
@@ -140,7 +142,7 @@ int main() {
     cout << "Recursive Inverse:" << endl;
     for (int i = 0 ; i < A.size() ; i++) {
         for (int j = 0 ; j < A.size() ; j++) {
-            cout << RB[i][j] << " ";
+            cout << RB[i][j] << "\t";
         }
         cout << endl;
     }
@@ -151,7 +153,7 @@ int main() {
 
     auto  recursive_end = chrono::high_resolution_clock::now();
     auto diff = chrono::duration_cast<chrono::microseconds>(recursive_end - recursive_start);
-    cout << " Recursive inverse runtime: " << diff.count() << "microseconds" << endl;
+    cout << " Recursive inverse runtime: " << diff.count() << " microseconds" << endl;
 
     cout << "*************************************************************************************" << endl;
 
@@ -164,7 +166,7 @@ int main() {
     cout << "gauss jordan:" << endl;
     for (int i = 0; i < A.size(); i++) {
         for (int j = 0; j < A.size(); j++) {
-            cout << GB[i][j] << " ";
+            cout << GB[i][j] << "\t";
         }
         cout << endl;
     }
@@ -174,7 +176,7 @@ int main() {
     auto gauss_end = chrono::high_resolution_clock::now();
     auto result = chrono::duration_cast<chrono::microseconds>(gauss_end-gauss_start);
 
-    cout << "Gauss jordan runtime: " << result.count() << "microseconds" << endl;
+    cout << "Gauss jordan runtime: " << result.count() << " microseconds" << endl;
 
     return 0;
 }
